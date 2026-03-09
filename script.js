@@ -56,7 +56,7 @@ function updateLoggedInNav() {
         navLinks.innerHTML = `
             <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">لوحة التحكم</a>
             <a href="#" class="nav-link" onclick="showPage('courses'); return false;">الدورات التدريبية</a>
-            <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">المستثمرون</a>
+            <a href="#" class="nav-link" onclick="showPage('investors'); return false;">المستثمرون</a>
             <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">متابعة التقدم</a>
             <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">الملف الشخصي</a>
         `;
@@ -80,8 +80,8 @@ function logout() {
     if (navLinks && navActions) {
         navLinks.innerHTML = `
             <a href="#" class="nav-link active" data-page="landing" onclick="showPage('landing'); return false;">الرئيسية</a>
-            <a href="#" class="nav-link" data-page="about">من نحن</a>
-            <a href="#" class="nav-link" data-page="contact">تواصل معنا</a>
+            <a href="#" class="nav-link" data-page="about" onclick="showPage('about'); return false;">من نحن</a>
+            <a href="#" class="nav-link" data-page="contact" onclick="showPage('contact'); return false;">تواصل معنا</a>
         `;
         
         navActions.innerHTML = `
@@ -125,6 +125,60 @@ mobileNavLinks.forEach(link => {
         }
     });
 });
+
+// Handle desktop nav links
+const desktopNavLinks = document.querySelectorAll('.nav-link');
+desktopNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        const page = link.getAttribute('data-page');
+        if (page) {
+            e.preventDefault();
+            showPage(page);
+        }
+    });
+});
+
+// ==========================================
+// Course Search
+// ==========================================
+
+const courseSearch = document.getElementById('courseSearch');
+if (courseSearch) {
+    courseSearch.addEventListener('input', filterCourses);
+}
+
+function filterCourses() {
+    const searchTerm = courseSearch.value.toLowerCase();
+    const courseCards = document.querySelectorAll('.course-card');
+    
+    courseCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Add click handlers to course register buttons
+const courseRegisterButtons = document.querySelectorAll('#coursesPage .btn-primary');
+courseRegisterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        showPage('auth');
+    });
+});
+
+// ==========================================
+// FAQ Toggle
+// ==========================================
+
+function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    faqItem.classList.toggle('active');
+}
 
 // ==========================================
 // Auth Forms

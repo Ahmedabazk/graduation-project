@@ -36,8 +36,6 @@
                 <!-- Mobile Menu Button -->
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
                     <span class="hamburger"></span>
-                    <span class="hamburger"></span>
-                    <span class="hamburger"></span>
                 </button>
             </div>
 
@@ -83,7 +81,7 @@
                                         <path d="M5 12h14M12 5l-7 7 7 7"/>
                                     </svg>
                                 </button>
-                                <button class="btn btn-outline btn-lg">اعرفي المزيد</button>
+                                <button class="btn btn-outline btn-lg" onclick="showPage('about')">اعرفي المزيد</button>
                             </div>
 
                             <!-- Stats -->
@@ -273,7 +271,7 @@
                         <button class="btn btn-white btn-lg" onclick="showPage('auth')">
                             سجلي الآن مجاناً
                         </button>
-                        <button class="btn btn-outline-white btn-lg">
+                        <button class="btn btn-outline-white btn-lg" onclick="showPage('contact')">
                             تواصلي معنا
                         </button>
                     </div>
@@ -295,26 +293,26 @@
                         <div class="footer-col">
                             <h4>روابط سريعة</h4>
                             <ul>
-                                <li><a href="#">من نحن</a></li>
-                                <li><a href="#" onclick="showPage('dashboard')">الدورات</a></li>
-                                <li><a href="#">المستثمرون</a></li>
+                                <li><a href="#" onclick="showPage('about'); return false;">من نحن</a></li>
+                                <li><a href="#" onclick="showPage('courses'); return false;">الدورات</a></li>
+                                <li><a href="#" onclick="showPage('investors'); return false;">المستثمرون</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-col">
                             <h4>الدعم</h4>
                             <ul>
-                                <li><a href="#">مركز المساعدة</a></li>
-                                <li><a href="#">الأسئلة الشائعة</a></li>
-                                <li><a href="#">الشروط والأحكام</a></li>
+                                <li><a href="#" onclick="showPage('help')">مركز المساعدة</a></li>
+                                <li><a href="#" onclick="showPage('faq'); return false;">الأسئلة الشائعة</a></li>
+                                <li><a href="#" onclick="showPage('terms'); return false;">الشروط والأحكام</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-col">
-                            <h4>تواصل معنا</h4>
+                            <h4><a href="#" onclick="showPage('contact'); return false;" style="color: inherit; text-decoration: none;">تواصل معنا</a></h4>
                             <ul>
-                                <li>info@tamkeen.eg</li>
-                                <li>+20 2 1234 5678</li>
+                                <li><a href="mailto:info@tamkeen.eg">info@tamkeen.eg</a></li>
+                                <li><a href="tel:+20212345678">+20 2 1234 5678</a></li>
                                 <li>القاهرة، مصر</li>
                             </ul>
                         </div>
@@ -328,7 +326,954 @@
             </footer>
         </div>
 
-        <!-- Auth Page -->
+        <!-- About Page -->
+        <div id="aboutPage" class="page">
+            <section class="about-hero">
+                <div class="container">
+                    <div class="about-hero-content">
+                        <h1>من نحن</h1>
+                        <p>منصة تمكين هي المبادرة الرائدة في دعم رائدات الأعمال المصريات، وتدعم رؤية مصر 2030 من خلال تمكين المرأة اقتصادياً</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-content">
+                <div class="container">
+                    <div class="about-grid">
+                        <div class="about-text">
+                            <h2>رؤيتنا</h2>
+                            <p>نسعى لأن نكون المنصة الأولى في الشرق الأوسط التي تدعم رائدات الأعمال من خلال توفير التدريب المتخصص، التمويل المناسب، والإرشاد المهني.</p>
+                            
+                            <h2>رسالتنا</h2>
+                            <p>تمكين 100,000 رائدة أعمال مصرية بحلول عام 2030 من خلال بناء مجتمع داعم يساعد في تحويل الأفكار إلى مشاريع ناجحة.</p>
+                        </div>
+                        <div class="about-stats">
+                            <div class="stat">
+                                <div class="stat-value">1200+</div>
+                                <div class="stat-label">رائدة أعمال</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">500+</div>
+                                <div class="stat-label">دورة تدريبية</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">95%</div>
+                                <div class="stat-label">نسبة النجاح</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contactPage" class="page">
+            <section class="contact-hero">
+                <div class="container">
+                    <div class="contact-hero-content">
+                        <h1>تواصل معنا</h1>
+                        <p>نحن هنا لمساعدتك في رحلتك الريادية. تواصلي معنا في أي وقت</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="contact-content">
+                <div class="container">
+                    <div class="contact-grid">
+                        <div class="contact-form">
+                            <h2>أرسلي رسالة</h2>
+                            <form>
+                                <div class="form-group">
+                                    <label>الاسم الكامل</label>
+                                    <input type="text" placeholder="أدخلي اسمك الكامل" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>البريد الإلكتروني</label>
+                                    <input type="email" placeholder="example@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>الموضوع</label>
+                                    <input type="text" placeholder="موضوع الرسالة" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>الرسالة</label>
+                                    <textarea placeholder="اكتبي رسالتك هنا..." rows="5" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">إرسال الرسالة</button>
+                            </form>
+                        </div>
+                        <div class="contact-info">
+                            <h2>معلومات التواصل</h2>
+                            <div class="contact-item">
+                                <div class="contact-icon">📧</div>
+                                <div>
+                                    <div class="contact-label">البريد الإلكتروني</div>
+                                    <div class="contact-value">info@tamkeen.eg</div>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">📞</div>
+                                <div>
+                                    <div class="contact-label">الهاتف</div>
+                                    <div class="contact-value">+20 2 1234 5678</div>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">📍</div>
+                                <div>
+                                    <div class="contact-label">العنوان</div>
+                                    <div class="contact-value">القاهرة، مصر</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Help Page -->
+        <div id="helpPage" class="page">
+            <section class="help-hero">
+                <div class="container">
+                    <div class="help-hero-content">
+                        <h1>مركز المساعدة</h1>
+                        <p>نحن هنا لمساعدتك في كل خطوة من رحلتك الريادية</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="help-content">
+                <div class="container">
+                    <div class="help-grid">
+                        <div class="help-section">
+                            <h2>البدء في رحلتك</h2>
+                            <div class="help-item">
+                                <h3>كيف أنشئ حساب جديد؟</h3>
+                                <p>اضغطي على "ابدئي الآن" في الصفحة الرئيسية واتبعي الخطوات البسيطة لإنشاء حسابك.</p>
+                            </div>
+                            <div class="help-item">
+                                <h3>ما هي الدورات المتاحة؟</h3>
+                                <p>نوفر أكثر من 500 دورة تدريبية في مجالات مختلفة مثل التسويق، الإدارة المالية، وريادة الأعمال.</p>
+                            </div>
+                        </div>
+                        <div class="help-section">
+                            <h2>الدعم الفني</h2>
+                            <div class="help-item">
+                                <h3>كيف أتصل بالدعم؟</h3>
+                                <p>يمكنك التواصل معنا عبر البريد الإلكتروني info@tamkeen.eg أو الهاتف +20 2 1234 5678</p>
+                            </div>
+                            <div class="help-item">
+                                <h3>مشاكل في تسجيل الدخول</h3>
+                                <p>تأكدي من صحة البريد الإلكتروني وكلمة المرور. إذا نسيت كلمة المرور، استخدمي رابط "نسيت كلمة المرور".</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Investors Page -->
+        <div id="investorsPage" class="page">
+            <section class="investors-hero">
+                <div class="container">
+                    <div class="investors-hero-content">
+                        <h1>المستثمرون</h1>
+                        <p>تواصلي مع مستثمرين موثوقين يدعمون مشاريع رائدات الأعمال</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="investors-content">
+                <div class="container">
+                    <div class="investors-grid" id="investorsGrid">
+                        <div class="investor-card">
+                            <div class="investor-image">
+                                <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="أحمد محمد">
+                            </div>
+                            <div class="investor-content">
+                                <h3>أحمد محمد</h3>
+                                <p class="investor-title">مستثمر في التكنولوجيا</p>
+                                <p class="investor-desc">استثمرت في أكثر من 15 شركة ناشئة في مجال التكنولوجيا والابتكار</p>
+                                <div class="investor-interests">
+                                    <span>تكنولوجيا</span>
+                                    <span>ذكاء اصطناعي</span>
+                                    <span>تجارة إلكترونية</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="investor-card">
+                            <div class="investor-image">
+                                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="فاطمة علي">
+                            </div>
+                            <div class="investor-content">
+                                <h3>فاطمة علي</h3>
+                                <p class="investor-title">مستثمرة في الزراعة</p>
+                                <p class="investor-desc">تركز على دعم المشاريع الزراعية المستدامة والأغذية العضوية</p>
+                                <div class="investor-interests">
+                                    <span>زراعة</span>
+                                    <span>أغذية عضوية</span>
+                                    <span>استدامة</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="investor-card">
+                            <div class="investor-image">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="محمد حسن">
+                            </div>
+                            <div class="investor-content">
+                                <h3>محمد حسن</h3>
+                                <p class="investor-title">مستثمر في التصنيع</p>
+                                <p class="investor-desc">يدعم مشاريع التصنيع المحلي والإنتاج الصناعي</p>
+                                <div class="investor-interests">
+                                    <span>تصنيع</span>
+                                    <span>إنتاج محلي</span>
+                                    <span>صناعات</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="investor-card">
+                            <div class="investor-image">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="سارة أحمد">
+                            </div>
+                            <div class="investor-content">
+                                <h3>سارة أحمد</h3>
+                                <p class="investor-title">مستثمرة في التعليم</p>
+                                <p class="investor-desc">تدعم مشاريع التعليم والتدريب والتطوير المهني</p>
+                                <div class="investor-interests">
+                                    <span>تعليم</span>
+                                    <span>تدريب</span>
+                                    <span>تطوير مهني</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="investor-card">
+                            <div class="investor-image">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="علي محمود">
+                            </div>
+                            <div class="investor-content">
+                                <h3>علي محمود</h3>
+                                <p class="investor-title">مستثمر في الطاقة</p>
+                                <p class="investor-desc">يركز على مشاريع الطاقة المتجددة والحلول البيئية</p>
+                                <div class="investor-interests">
+                                    <span>طاقة متجددة</span>
+                                    <span>بيئة</span>
+                                    <span>استدامة</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="investor-card">
+                            <div class="investor-image">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="نور حسن">
+                            </div>
+                            <div class="investor-content">
+                                <h3>نور حسن</h3>
+                                <p class="investor-title">مستثمرة في السياحة</p>
+                                <p class="investor-desc">تدعم مشاريع السياحة والضيافة والترفيه</p>
+                                <div class="investor-interests">
+                                    <span>سياحة</span>
+                                    <span>ضيافة</span>
+                                    <span>ترفيه</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Terms Page -->
+        <div id="termsPage" class="page">
+            <section class="terms-hero">
+                <div class="container">
+                    <div class="terms-hero-content">
+                        <h1>الشروط والأحكام</h1>
+                        <p>اقرئي بعناية قبل استخدام منصة تمكين</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="terms-content">
+                <div class="container">
+                    <div class="terms-text">
+                        <h2>1. قبول الشروط</h2>
+                        <p>بالدخول إلى منصة تمكين، تقبلين هذه الشروط والأحكام بالكامل. إذا كنتِ لا توافقين على أي جزء منها، يرجى عدم استخدام المنصة.</p>
+
+                        <h2>2. استخدام المنصة</h2>
+                        <p>المنصة مخصصة لدعم رائدات الأعمال المصريات. يجب استخدامها بطريقة قانونية وأخلاقية. لا يُسمح باستخدامها لأغراض غير قانونية أو ضارة.</p>
+
+                        <h2>3. حقوق الملكية الفكرية</h2>
+                        <p>جميع المحتوى في المنصة (النصوص والصور والفيديوهات) محمي بحقوق الملكية الفكرية. لا يُسمح بنسخ أو توزيع المحتوى بدون إذن صريح.</p>
+
+                        <h2>4. الحسابات والكلمات المرورية</h2>
+                        <p>أنتِ مسؤولة عن حماية كلمة مرورك وعدم مشاركتها مع الآخرين. المنصة لا تتحمل المسؤولية عن الوصول غير المصرح إلى حسابك.</p>
+
+                        <h2>5. المحتوى المستخدم</h2>
+                        <p>أي محتوى تنشرينه في المنصة تكونين مسؤولة عنه. يجب أن يكون قانونياً واحترافياً. نحتفظ بالحق في حذف أي محتوى يخالف هذه الشروط.</p>
+
+                        <h2>6. المسؤولية والتعويضات</h2>
+                        <p>المنصة توفر الخدمات "كما هي". لا نضمن عدم وجود أخطاء أو انقطاع الخدمة. لا نتحمل مسؤولية الأضرار المباشرة أو غير المباشرة الناتجة عن استخدام المنصة.</p>
+
+                        <h2>7. سياسة الخصوصية</h2>
+                        <p>نحترم خصوصيتك. بيانات حسابك محمية تماماً. لن نشاركها مع أطراف ثالثة بدون موافقتك. للمزيد، اطلعي على سياسة الخصوصية الكاملة.</p>
+
+                        <h2>8. التعديلات على الشروط</h2>
+                        <p>نحتفظ بالحق في تعديل هذه الشروط في أي وقت. ستُخطرين بأي تغييرات مهمة عبر البريد الإلكتروني. الاستمرار في استخدام المنصة يعني قبولك للشروط الجديدة.</p>
+
+                        <h2>9. الإنهاء</h2>
+                        <p>يمكنك إنهاء حسابك في أي وقت. نحتفظ بالحق في إيقاف الحساب إذا انتهكتِ هذه الشروط.</p>
+
+                        <h2>10. التواصل</h2>
+                        <p>إذا كان لديك أي أسئلة حول هذه الشروط، تواصلي معنا عبر البريد الإلكتروني: info@tamkeen.eg</p>
+
+                        <div class="terms-footer">
+                            <p><strong>آخر تحديث: 9 مارس 2026</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- FAQ Page -->
+        <div id="faqPage" class="page">
+            <section class="faq-hero">
+                <div class="container">
+                    <div class="faq-hero-content">
+                        <h1>الأسئلة الشائعة</h1>
+                        <p>إجابات لأكثر الأسئلة التي تطرحها رائدات الأعمال</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="faq-content">
+                <div class="container">
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>كيف أسجل في منصة تمكين؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>التسجيل في منصة تمكين سهل جداً. اضغطي على "ابدئي الآن" واتبعي الخطوات البسيطة. ستحتاجين إلى بريد إلكتروني وكلمة مرور قوية. بعد التأكد من بريدك الإلكتروني، يمكنك البدء في تصفح الدورات والمستثمرين.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>هل المنصة مجانية؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>التسجيل في المنصة مجاني تماماً! بعض الدورات مجانية وبعضها قد يتطلب رسوم اشتراك. لكن الوصول الأساسي إلى المنصة والمحتوى الأساسي مجاني للجميع.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>كيف أتواصل مع المستثمرين؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>يمكنك تصفح ملفات المستثمرين في صفحة "المستثمرون" ورؤية اهتماماتهم. بعد ذلك، يمكنك التواصل معهم عبر البريد الإلكتروني أو الاتصال بفريق الدعم للمساعدة في الربط بينك وبينهم.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>ما هي مدة الدورات؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>مدة الدورات تختلف حسب محتواها. معظم الدورات تتراوح بين 6 إلى 20 أسبوع. كل دورة لها جدول زمني مرن تستطيعين الدراسة فيه بوتيرتكن الخاصة.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>هل يوجد شهادات بعد إنهاء الدورة؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>نعم، بعد إنهاء أي دورة بنجاح ستحصلين على شهادة معترف بها. الشهادة ستضاف إلى ملفك الشخصي ويمكنك مشاركتها مع الآخرين وأصحاب العمل.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>كيف أبدأ مشروعي الخاص؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>ابدئي بتطوير فكرتك من خلال دورات ريادة الأعمال. ثم، استخدمي أدواتنا لكتابة خطة عملك ودراسة السوق. بعد ذلك، تواصلي مع المستثمرين الذين يهتمون بمجال مشروعك.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>هل يمكنني التواصل مع مرشد شخصي؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>نعم، يمكنك طلب مرشد متخصص من خلال صفحة التواصل معنا. سنساعدك في إيجاد مرشد يتناسب مع احتياجات مشروعك ومجال عملك.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>ماذا أفعل إذا نسيت كلمة المرور؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>اضغطي على "نسيت كلمة المرور" في صفحة الدخول. أدخلي بريدك الإلكتروني وستتلقين رسالة بها رابط لإعادة تعيين كلمة المرور. اتبعي الخطوات لإنشاء كلمة مرور جديدة.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>هل يمكنني تغيير خطتي بعد التسجيل؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>بالطبع! يمكنك تغيير أهدافك والدورات التي تريدين حضورها في أي وقت. المرونة جزء أساسي من فلسفتنا في دعم رائدات الأعمال.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <h3>كيف أتواصل مع فريق الدعم؟</h3>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>يمكنك التواصل معنا عبر صفحة "تواصل معنا" أو البريد الإلكتروني info@tamkeen.eg أو الهاتف +20 2 1234 5678. فريقنا هنا لمساعدتك 24/7.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Courses Page -->
+        <div id="coursesPage" class="page">
+            <section class="courses-hero">
+                <div class="container">
+                    <div class="courses-hero-content">
+                        <h1>الدورات التدريبية</h1>
+                        <p>دورات متخصصة لتطوير مهاراتك الريادية وتحقيق أحلامك</p>
+                        <div class="search-container">
+                            <input type="text" id="courseSearch" placeholder="ابحثي عن دورة..." class="search-input">
+                            <button class="search-btn">🔍</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="courses-content">
+                <div class="container">
+                    <div class="courses-grid" id="coursesGrid">
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="إدارة الأعمال">
+                            </div>
+                            <div class="course-content">
+                                <h3>إدارة الأعمال الأساسية</h3>
+                                <p>تعلمي أساسيات إدارة الأعمال والتخطيط الاستراتيجي</p>
+                                <div class="course-meta">
+                                    <span class="duration">8 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary" onclick="showPage('auth')">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التسويق الرقمي">
+                            </div>
+                            <div class="course-content">
+                                <h3>التسويق الرقمي للشركات الصغيرة</h3>
+                                <p>اكتشفي أسرار التسويق عبر الإنترنت وبناء حضور قوي</p>
+                                <div class="course-meta">
+                                    <span class="duration">6 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary" onclick="showPage('auth')">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التمويل">
+                            </div>
+                            <div class="course-content">
+                                <h3>إدارة المال والتمويل</h3>
+                                <p>تعلمي كيفية إدارة الأموال وبناء خطط مالية مستدامة</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="ريادة الأعمال">
+                            </div>
+                            <div class="course-content">
+                                <h3>أساسيات ريادة الأعمال</h3>
+                                <p>ابدئي رحلتك في عالم ريادة الأعمال بالمعرفة الصحيحة</p>
+                                <div class="course-meta">
+                                    <span class="duration">12 أسبوع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التطوير الشخصي">
+                            </div>
+                            <div class="course-content">
+                                <h3>التطوير الشخصي للقيادات</h3>
+                                <p>طوري مهاراتك القيادية وأصبحي قائدة ناجحة</p>
+                                <div class="course-meta">
+                                    <span class="duration">8 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="بناء الفرق">
+                            </div>
+                            <div class="course-content">
+                                <h3>بناء وإدارة الفرق</h3>
+                                <p>تعلمي كيفية بناء فرق عمل فعالة ومتماسكة</p>
+                                <div class="course-meta">
+                                    <span class="duration">6 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الحرف اليدوية">
+                            </div>
+                            <div class="course-content">
+                                <h3>تطوير الحرف اليدوية المصرية</h3>
+                                <p>تعلمي كيفية تطوير وتسويق الحرف اليدوية التقليدية في السوق الحديث</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الزراعة المستدامة">
+                            </div>
+                            <div class="course-content">
+                                <h3>ريادة الأعمال في الزراعة المستدامة</h3>
+                                <p>اكتشفي فرص الأعمال في الزراعة العضوية والمستدامة في مصر</p>
+                                <div class="course-meta">
+                                    <span class="duration">14 أسبوع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التجارة الإلكترونية">
+                            </div>
+                            <div class="course-content">
+                                <h3>التجارة الإلكترونية في مصر</h3>
+                                <p>تعلمي أساسيات التجارة عبر الإنترنت وإدارة متاجر إلكترونية ناجحة</p>
+                                <div class="course-meta">
+                                    <span class="duration">8 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="السياحة">
+                            </div>
+                            <div class="course-content">
+                                <h3>ريادة الأعمال في قطاع السياحة</h3>
+                                <p>استغلال فرص السياحة في مصر من خلال مشاريع مبتكرة ومستدامة</p>
+                                <div class="course-meta">
+                                    <span class="duration">12 أسبوع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التكنولوجيا">
+                            </div>
+                            <div class="course-content">
+                                <h3>التكنولوجيا والابتكار في الأعمال</h3>
+                                <p>كيفية دمج التكنولوجيا في أعمالك لتحسين الكفاءة وزيادة الإنتاجية</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التصدير">
+                            </div>
+                            <div class="course-content">
+                                <h3>التصدير والتجارة الدولية</h3>
+                                <p>تعلمي كيفية التصدير إلى الأسواق العالمية وفتح أبواب جديدة لأعمالك</p>
+                                <div class="course-meta">
+                                    <span class="duration">16 أسبوع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الرعاية الصحية">
+                            </div>
+                            <div class="course-content">
+                                <h3>ريادة الأعمال في الرعاية الصحية</h3>
+                                <p>فرص الأعمال في قطاع الرعاية الصحية والخدمات الطبية في مصر</p>
+                                <div class="course-meta">
+                                    <span class="duration">12 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التعليم">
+                            </div>
+                            <div class="course-content">
+                                <h3>مشاريع التعليم والتدريب</h3>
+                                <p>إنشاء مراكز تعليمية وتدريبية مبتكرة في السوق المصري</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الطاقة المتجددة">
+                            </div>
+                            <div class="course-content">
+                                <h3>الطاقة المتجددة والبيئة</h3>
+                                <p>مشاريع الطاقة الشمسية والرياح في مصر وفرص الاستثمار</p>
+                                <div class="course-meta">
+                                    <span class="duration">14 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التصنيع">
+                            </div>
+                            <div class="course-content">
+                                <h3>التصنيع والإنتاج المحلي</h3>
+                                <p>تطوير صناعات محلية وتصنيع منتجات تنافسية</p>
+                                <div class="course-meta">
+                                    <span class="duration">16 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التطبيقات">
+                            </div>
+                            <div class="course-content">
+                                <h3>تطوير التطبيقات والبرمجيات</h3>
+                                <p>إنشاء تطبيقات هاتف وبرمجيات لحل المشكلات المحلية</p>
+                                <div class="course-meta">
+                                    <span class="duration">18 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="المشغولات اليدوية">
+                            </div>
+                            <div class="course-content">
+                                <h3>الحرف والمشغولات اليدوية</h3>
+                                <p>تطوير وتسويق الحرف التقليدية المصرية في العصر الرقمي</p>
+                                <div class="course-meta">
+                                    <span class="duration">8 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الزراعة التكنولوجية">
+                            </div>
+                            <div class="course-content">
+                                <h3>الزراعة التكنولوجية والذكية</h3>
+                                <p>دمج التكنولوجيا في الزراعة لزيادة الإنتاجية والاستدامة</p>
+                                <div class="course-meta">
+                                    <span class="duration">12 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="السياحة البيئية">
+                            </div>
+                            <div class="course-content">
+                                <h3>السياحة البيئية والمستدامة</h3>
+                                <p>مشاريع سياحية صديقة للبيئة في المناطق الطبيعية المصرية</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الذكاء الاصطناعي">
+                            </div>
+                            <div class="course-content">
+                                <h3>الذكاء الاصطناعي في الأعمال</h3>
+                                <p>تطبيقات الذكاء الاصطناعي في تحسين الأعمال والخدمات</p>
+                                <div class="course-meta">
+                                    <span class="duration">20 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التجارة الدولية">
+                            </div>
+                            <div class="course-content">
+                                <h3>التجارة عبر الحدود</h3>
+                                <p>استراتيجيات التصدير والاستيراد في السوق المصري</p>
+                                <div class="course-meta">
+                                    <span class="duration">14 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="إدارة المشاريع">
+                            </div>
+                            <div class="course-content">
+                                <h3>إدارة المشاريع الرقمية</h3>
+                                <p>أدوات وتقنيات إدارة المشاريع في العصر الرقمي</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="التسويق الرقمي">
+                            </div>
+                            <div class="course-content">
+                                <h3>التسويق الرقمي المتقدم</h3>
+                                <p>استراتيجيات التسويق عبر وسائل التواصل الاجتماعي والإعلانات</p>
+                                <div class="course-meta">
+                                    <span class="duration">12 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الخدمات المالية">
+                            </div>
+                            <div class="course-content">
+                                <h3>الخدمات المالية والتمويل</h3>
+                                <p>فهم أسواق المال والخدمات المصرفية للشركات الصغيرة</p>
+                                <div class="course-meta">
+                                    <span class="duration">16 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الأغذية العضوية">
+                            </div>
+                            <div class="course-content">
+                                <h3>صناعة الأغذية العضوية</h3>
+                                <p>إنتاج وتسويق الأغذية العضوية في السوق المصري</p>
+                                <div class="course-meta">
+                                    <span class="duration">14 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الرياضة والترفيه">
+                            </div>
+                            <div class="course-content">
+                                <h3>مشاريع الرياضة والترفيه</h3>
+                                <p>فرص الأعمال في قطاع الرياضة والترفيه في مصر</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="البلوكشين">
+                            </div>
+                            <div class="course-content">
+                                <h3>البلوكشين والعملات الرقمية</h3>
+                                <p>تطبيقات البلوكشين في الأعمال والتمويل الرقمي</p>
+                                <div class="course-meta">
+                                    <span class="duration">18 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="اللوجستيات">
+                            </div>
+                            <div class="course-content">
+                                <h3>اللوجستيات والنقل</h3>
+                                <p>إدارة سلاسل التوريد والنقل في السوق المصري</p>
+                                <div class="course-meta">
+                                    <span class="duration">12 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الاستشارات">
+                            </div>
+                            <div class="course-content">
+                                <h3>الاستشارات الإدارية</h3>
+                                <p>تقديم خدمات الاستشارات للشركات والمشاريع الصغيرة</p>
+                                <div class="course-meta">
+                                    <span class="duration">8 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الأزياء">
+                            </div>
+                            <div class="course-content">
+                                <h3>صناعة الأزياء والملابس</h3>
+                                <p>تصميم وإنتاج الملابس المصرية مع اللمسات العالمية</p>
+                                <div class="course-meta">
+                                    <span class="duration">14 أسابيع</span>
+                                    <span class="level">متوسطة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الطاقة">
+                            </div>
+                            <div class="course-content">
+                                <h3>كفاءة الطاقة والتوفير</h3>
+                                <p>مشاريع توفير الطاقة وتحسين الكفاءة في المباني</p>
+                                <div class="course-meta">
+                                    <span class="duration">10 أسابيع</span>
+                                    <span class="level">مبتدئة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card">
+                            <div class="course-image">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400" alt="الأمن الغذائي">
+                            </div>
+                            <div class="course-content">
+                                <h3>الأمن الغذائي والزراعة</h3>
+                                <p>مشاريع تعزيز الأمن الغذائي من خلال الزراعة المستدامة</p>
+                                <div class="course-meta">
+                                    <span class="duration">16 أسابيع</span>
+                                    <span class="level">متقدمة</span>
+                                </div>
+                                <button class="btn btn-primary">سجلي الآن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Auth Page (Login/Register) - Will be shown when clicking auth buttons -->
         <div id="authPage" class="page">
             <div class="auth-container">
                 <div class="auth-content">
@@ -351,6 +1296,7 @@
 
                         <h3 class="auth-title" id="authTitle">أهلاً بعودتك!</h3>
 
+                        <!-- Login Form -->
                         <form id="loginForm" class="auth-form">
                             <div class="form-group">
                                 <label>البريد الإلكتروني</label>
@@ -375,6 +1321,7 @@
                             </button>
                         </form>
 
+                        <!-- Register Form -->
                         <form id="registerForm" class="auth-form" style="display: none;">
                             <div class="account-types">
                                 <label class="account-type">
@@ -416,13 +1363,18 @@
                                 <input type="tel" placeholder="+20 1XX XXX XXXX" required>
                             </div>
 
+                            <div class="form-group">
+                                <label>رابط فيسبوك (اختياري)</label>
+                                <input type="url" placeholder="https://www.facebook.com/username" name="facebook">
+                            </div>
+
                             <button type="submit" class="btn btn-primary btn-block btn-lg">
                                 إنشاء الحساب
                             </button>
 
                             <p class="auth-terms">
                                 بإنشاء حساب، أنتِ توافقين على 
-                                <a href="#">الشروط والأحكام</a> و 
+                                <a href="#" onclick="showPage('terms'); return false;">الشروط والأحكام</a> و 
                                 <a href="#">سياسة الخصوصية</a>
                             </p>
                         </form>
@@ -431,6 +1383,7 @@
 
                         <div class="social-auth">
                             <button class="btn btn-outline btn-block">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=" width="18" alt="Google">
                                 متابعة باستخدام Google
                             </button>
                         </div>
@@ -443,7 +1396,7 @@
             </div>
         </div>
 
-        <!-- Dashboard Page -->
+        <!-- Dashboard Page (shown after login) -->
         <div id="dashboardPage" class="page">
             <div class="dashboard-container">
                 <div class="container">
@@ -452,7 +1405,7 @@
                             <h1>مرحباً، سارة! 👋</h1>
                             <p>نتمنى لك يوماً مثمراً من التعلم والتطوير</p>
                         </div>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" onclick="showPage('courses')">
                             تصفح الدورات →
                         </button>
                     </div>
@@ -488,7 +1441,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h2>الدورات الموصى بها لك</h2>
-                                    <button class="btn-link">عرض الكل</button>
+                                    <button class="btn-link" onclick="showPage('courses')">عرض الكل</button>
                                 </div>
                                 <div class="courses-grid">
                                     <div class="course-card">

@@ -148,7 +148,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 4rem;
+    height: 3.5rem;
 }
 
 .logo {
@@ -158,20 +158,20 @@ button {
 }
 
 .logo-icon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: var(--radius-lg);
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
 }
 
 .logo-text {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--gray-900);
 }
@@ -366,7 +366,7 @@ button {
 
 .hero {
     position: relative;
-    padding: 8rem 0 4rem;
+    padding: 7rem 0 4rem;
     background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 50%, white 100%);
     overflow: hidden;
 }
@@ -538,6 +538,465 @@ button {
 /* ==========================================
    Sections
    ========================================== */
+
+.about-hero,
+.contact-hero,
+.help-hero {
+    padding: 6rem 0 4rem;
+    background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 50%, white 100%);
+}
+
+.about-hero-content,
+.contact-hero-content,
+.help-hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-hero-content h1,
+.contact-hero-content h1,
+.help-hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.about-hero-content p,
+.contact-hero-content p,
+.help-hero-content p {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
+.about-content,
+.contact-content,
+.help-content {
+    padding: 4rem 0;
+}
+
+.about-grid,
+.contact-grid,
+.help-grid {
+    display: grid;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    .about-grid,
+    .contact-grid,
+    .help-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+    }
+}
+
+.help-item {
+    margin-bottom: 2rem;
+}
+
+.help-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.help-item p {
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+.courses-hero,
+.contact-hero,
+.help-hero {
+    padding: 6rem 0 4rem;
+    background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 50%, white 100%);
+}
+
+.courses-hero-content,
+.contact-hero-content,
+.help-hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.courses-hero-content h1,
+.contact-hero-content h1,
+.help-hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.courses-hero-content p,
+.contact-hero-content p,
+.help-hero-content p {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
+.search-container {
+    display: flex;
+    max-width: 500px;
+    margin: 2rem auto 0;
+    gap: 0.5rem;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.search-btn {
+    padding: 0.75rem 1rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+}
+
+.courses-content {
+    padding: 4rem 0;
+}
+
+.courses-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.course-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.course-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.course-card:hover .course-image img {
+    transform: scale(1.05);
+}
+
+.course-content {
+    padding: 1.5rem;
+}
+
+.course-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.course-content p {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.duration,
+.level {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    background: var(--gray-100);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+}
+
+.investors-hero,
+.courses-hero,
+.contact-hero,
+.help-hero {
+    padding: 6rem 0 4rem;
+    background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 50%, white 100%);
+}
+
+.investors-hero-content,
+.courses-hero-content,
+.contact-hero-content,
+.help-hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.investors-hero-content h1,
+.courses-hero-content h1,
+.contact-hero-content h1,
+.help-hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.investors-hero-content p,
+.courses-hero-content p,
+.contact-hero-content p,
+.help-hero-content p {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
+.investors-content {
+    padding: 4rem 0;
+}
+
+.investors-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .investors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .investors-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.investor-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.investor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.investor-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.investor-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.investor-card:hover .investor-image img {
+    transform: scale(1.05);
+}
+
+.investor-content {
+    padding: 1.5rem;
+}
+
+.investor-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.investor-title {
+    font-size: 0.875rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.investor-desc {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.investor-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.investor-interests span {
+    font-size: 0.75rem;
+    color: var(--gray-700);
+    background: var(--gray-100);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+}
+
+.faq-hero,
+.investors-hero,
+.courses-hero,
+.contact-hero,
+.help-hero {
+    padding: 6rem 0 4rem;
+    background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 50%, white 100%);
+}
+
+.faq-hero-content,
+.investors-hero-content,
+.courses-hero-content,
+.contact-hero-content,
+.help-hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-hero-content h1,
+.investors-hero-content h1,
+.courses-hero-content h1,
+.contact-hero-content h1,
+.help-hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.faq-hero-content p,
+.investors-hero-content p,
+.courses-hero-content p,
+.contact-hero-content p,
+.help-hero-content p {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
+.faq-content {
+    padding: 4rem 0;
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+}
+
+.faq-item:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.faq-question {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+    transition: background 0.3s;
+}
+
+.faq-question:hover {
+    background: var(--gray-50);
+}
+
+.faq-question h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 0;
+}
+
+.faq-toggle {
+    font-size: 1.5rem;
+    color: var(--primary);
+    transition: transform 0.3s;
+    min-width: 2rem;
+    text-align: center;
+}
+
+.faq-item.active .faq-toggle {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.5rem;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 1.5rem;
+}
+
+.faq-answer p {
+    color: var(--gray-600);
+    line-height: 1.8;
+    margin: 0;
+}
 
 .features,
 .how-it-works,
@@ -895,7 +1354,7 @@ button {
 
 .auth-container {
     min-height: 100vh;
-    padding-top: 5rem;
+    padding-top: 4rem;
     padding-bottom: 3rem;
     background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 50%, white 100%);
 }
@@ -1158,7 +1617,7 @@ button {
 
 .dashboard-container {
     min-height: 100vh;
-    padding-top: 5rem;
+    padding-top: 4rem;
     padding-bottom: 3rem;
     background: var(--gray-50);
 }
