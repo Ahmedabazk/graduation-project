@@ -15,6 +15,8 @@ const profileState = {
     tags: ['الابتكار', 'التمويل', 'الاستدامة'],
     avatar: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=200&h=200&fit=crop'
 };
+const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'; // Replace with your actual Google OAuth client ID
+let googleIdentityInitialized = false;
 
 // Load remembered login data
 function loadRememberedData() {
@@ -160,6 +162,103 @@ function showProfile() {
         showPage('profile');
     } else {
         showPage('auth');
+    }
+}
+
+function waitForGoogleAccounts(callback) {
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+        callback();
+        return;
+    }
+
+    let poller = null;
+    const timeout = setTimeout(() => {
+        if (poller) {
+            clearInterval(poller);
+        }
+    }, 10000);
+
+    poller = setInterval(() => {
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+            clearInterval(poller);
+            clearTimeout(timeout);
+            callback();
+        }
+    }, 250);
+}
+
+function initGoogleIdentity() {
+    if (googleIdentityInitialized || !window.google || !window.google.accounts || !window.google.accounts.id) {
+        return;
+    }
+
+    const googleButton = document.getElementById('googleSignInButton');
+    if (!googleButton) {
+        return;
+    }
+
+    googleIdentityInitialized = true;
+
+    google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+        ux_mode: 'popup'
+    });
+
+    googleButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        if (GOOGLE_CLIENT_ID.includes('YOUR_GOOGLE_CLIENT_ID')) {
+            showToast('من فضلك استبدل GOOGLE_CLIENT_ID في script.js بمعرف العميل الخاص بك من Google.', 'info');
+        }
+
+        google.accounts.id.prompt(notification => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                console.warn('Google Identity prompt لم يظهر:', notification);
+            }
+        });
+    });
+}
+
+function handleGoogleCredential(response) {
+    if (!response || !response.credential) {
+        showToast('تعذر إكمال تسجيل الدخول عبر Google.', 'error');
+        return;
+    }
+
+    const payload = parseJwt(response.credential);
+    profileState.name = payload.name || profileState.name;
+    profileState.summary = payload.locale ? `مسجلة بـ ${payload.locale}` : profileState.summary;
+    profileState.email = payload.email || profileState.email;
+    profileState.avatar = payload.picture || profileState.avatar;
+    if (payload.hd) {
+        profileState.tags = [payload.hd, ...profileState.tags];
+    }
+
+    renderProfileData();
+    fillProfileForm();
+
+    isLoggedIn = true;
+    showPage('dashboard');
+    showToast('تم تسجيل الدخول عبر Google بنجاح!', 'success');
+}
+
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    if (!base64Url) {
+        return {};
+    }
+
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+        return `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`;
+    }).join(''));
+
+    try {
+        return JSON.parse(jsonPayload);
+    } catch (err) {
+        console.error('فشل تحليل JWT من Google:', err);
+        return {};
     }
 }
 
@@ -672,6 +771,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    waitForGoogleAccounts(initGoogleIdentity);
+    
     // Add loading animation
     document.body.style.opacity = '0';
     setTimeout(() => {
