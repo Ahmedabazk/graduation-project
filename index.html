@@ -25,6 +25,7 @@
                     <a href="#" class="nav-link active" data-page="landing">الرئيسية</a>
                     <a href="#" class="nav-link" data-page="about">من نحن</a>
                     <a href="#" class="nav-link" data-page="contact">تواصل معنا</a>
+                    <a href="#" class="nav-link" onclick="showProfile(); return false;">الملف الشخصي</a>
                 </div>
 
                 <!-- Auth Buttons -->
@@ -44,6 +45,7 @@
                 <a href="#" class="mobile-nav-link" data-page="landing">الرئيسية</a>
                 <a href="#" class="mobile-nav-link" data-page="about">من نحن</a>
                 <a href="#" class="mobile-nav-link" data-page="contact">تواصل معنا</a>
+                <a href="#" class="mobile-nav-link" onclick="showProfile(); return false;">الملف الشخصي</a>
                 <div class="mobile-nav-actions">
                     <button class="btn btn-outline btn-block" onclick="showPage('auth')">تسجيل الدخول</button>
                     <button class="btn btn-primary btn-block" onclick="showPage('auth')">ابدئي الآن</button>
@@ -1310,7 +1312,7 @@
 
                             <div class="form-row">
                                 <label class="checkbox-label">
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="rememberMe">
                                     <span>تذكرني</span>
                                 </label>
                                 <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
@@ -1502,6 +1504,147 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Profile Page (available after login) -->
+        <div id="profilePage" class="page">
+            <section class="profile-page">
+                <div class="container">
+                    <div class="profile-header">
+                        <div>
+                            <p class="eyebrow">الملف الشخصي</p>
+                            <h1>أهلاً بك يا سارة!</h1>
+                            <p>هنا يمكنك مراجعة بياناتك، تحديث معلوماتك الأساسية، ومتابعة الإنجازات التي تحققت.</p>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" onclick="showPage('dashboard')">العودة إلى لوحة القيادة</button>
+                            <button class="btn btn-outline" onclick="showPage('courses')">عرض الدورات</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <img id="profileAvatar" src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=200&h=200&fit=crop" alt="الملف الشخصي">
+                                <div>
+                                    <h2 id="profileNameDisplay">سارة القحطاني</h2>
+                                    <span id="profileRoleDisplay">رائدة أعمال ومؤسسة ناشئة</span>
+                                </div>
+                            </div>
+                            <p class="profile-summary" id="profileSummary">
+                                أعمل على بناء حلول رقمية تدعم رواد الأعمال في الإقلاع بمشاريعهم. أستمتع بالتعلم المستمر والتعاون في فرق متعددة التخصصات.
+                            </p>
+                            <div class="profile-meta">
+                                <div>
+                                    <strong>تجربة</strong>
+                                    <span id="profileExperience">5 سنوات</span>
+                                </div>
+                                <div>
+                                    <strong>الموقع</strong>
+                                    <span id="profileLocation">الرياض، المملكة العربية السعودية</span>
+                                </div>
+                                <div>
+                                    <strong>الحالة</strong>
+                                    <span id="profileStatus">نشط</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <h3>بيانات التواصل</h3>
+                            <ul class="profile-details">
+                                <li><strong>البريد الإلكتروني:</strong> <span id="profileEmail">sara@example.com</span></li>
+                                <li><strong>رقم الهاتف:</strong> <span id="profilePhone">+966 5X XXX XXXX</span></li>
+                                <li><strong>شبكات التواصل:</strong> <span id="profileSocial">LinkedIn · X · Instagram</span></li>
+                            </ul>
+                            <div class="profile-tags" id="profileTags">
+                                <span>الابتكار</span>
+                                <span>التمويل</span>
+                                <span>الاستدامة</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-card profile-progress-card">
+                            <h3>التقدم في البرنامج</h3>
+                            <div class="progress-item">
+                                <span>دورات التأسيس</span>
+                                <div class="progress-bar">
+                                    <div style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <span>ورش العمل المنظمة</span>
+                                <div class="progress-bar">
+                                    <div style="width: 60%;"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <span>الاستشارة الفردية</span>
+                                <div class="progress-bar">
+                                    <div style="width: 45%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card profile-edit-card">
+                            <h3>تحديث الملف الشخصي</h3>
+                            <form id="profileEditForm" class="profile-edit-form">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="profileNameInput">الاسم الكامل</label>
+                                        <input type="text" id="profileNameInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileRoleInput">المسمى الوظيفي</label>
+                                        <input type="text" id="profileRoleInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileExperienceInput">سنوات الخبرة</label>
+                                        <input type="text" id="profileExperienceInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileLocationInput">الموقع</label>
+                                        <input type="text" id="profileLocationInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileStatusInput">الحالة</label>
+                                        <input type="text" id="profileStatusInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileEmailInput">البريد الإلكتروني</label>
+                                        <input type="email" id="profileEmailInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profilePhoneInput">رقم الهاتف</label>
+                                        <input type="tel" id="profilePhoneInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileSocialInput">شبكات التواصل</label>
+                                        <input type="text" id="profileSocialInput">
+                                    </div>
+                                    <div class="form-group form-group-full">
+                                        <label for="profileSummaryInput">نبذة قصيرة</label>
+                                        <textarea id="profileSummaryInput" rows="3" required></textarea>
+                                    </div>
+                                    <div class="form-group form-group-full">
+                                        <label for="profileTagsInput">الكلمات المفتاحية (افصل بين كل كلمة بواصل)</label>
+                                        <input type="text" id="profileTagsInput" placeholder="الابتكار, التمويل, الاستدامة">
+                                    </div>
+                                    <div class="form-group form-group-full">
+                                        <label for="profileImageInput">صورة الملف الشخصي</label>
+                                        <input type="file" id="profileImageInput" accept="image/*">
+                                        <small>سيتم معاينة الصورة عند حفظ التعديلات</small>
+                                    </div>
+                                </div>
+                                <div class="profile-form-actions">
+                                    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                                    <button type="button" class="btn btn-outline" id="profileResetBtn">إعادة تعيين</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 

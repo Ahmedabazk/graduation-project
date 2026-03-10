@@ -1864,3 +1864,236 @@ button {
         gap: 1rem;
     }
 }
+
+.profile-page {
+    padding: 5rem 0 3rem;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+}
+
+.profile-header h1 {
+    font-size: 2.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.profile-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .profile-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.profile-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-100);
+}
+
+.profile-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.profile-card-header img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.profile-card-header h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.profile-card-header span {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.profile-summary {
+    margin-bottom: 1rem;
+    color: var(--gray-600);
+}
+
+.profile-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+}
+
+.profile-meta strong {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 0.25rem;
+}
+
+.profile-meta span {
+    font-size: 0.95rem;
+}
+
+.profile-details {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    color: var(--gray-600);
+}
+
+.profile-details strong {
+    margin-right: 0.5rem;
+    color: var(--gray-700);
+}
+
+.profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.profile-tags span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: var(--accent);
+    font-size: 0.8rem;
+    color: var(--primary);
+}
+
+.profile-progress-card .progress-item {
+    margin-bottom: 1rem;
+}
+
+.profile-progress-card .progress-item:last-child {
+    margin-bottom: 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--gray-200);
+    overflow: hidden;
+}
+
+.progress-bar div {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: inherit;
+}
+
+@media (max-width: 768px) {
+    .profile-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+.profile-edit-card {
+    grid-column: 1 / -1;
+}
+
+.profile-edit-card h3 {
+    margin-bottom: 1rem;
+}
+
+.profile-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-group-full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+}
+
+.form-group input,
+.form-group textarea {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    outline: none;
+}
+
+.form-group small {
+    color: var(--gray-500);
+    font-size: 0.75rem;
+}
+
+.profile-form-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}

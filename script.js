@@ -2,6 +2,39 @@ let currentPage = 'landing';
 let isLoggedIn = false;
 let authMode = 'login'; // 'login' or 'register'
 
+const profileState = {
+    name: 'سارة القحطاني',
+    role: 'رائدة أعمال ومؤسسة ناشئة',
+    summary: 'أعمل على بناء حلول رقمية تدعم رواد الأعمال في الإقلاع بمشاريعهم. أستمتع بالتعلم المستمر والتعاون في فرق متعددة التخصصات.',
+    experience: '5 سنوات',
+    location: 'الرياض، المملكة العربية السعودية',
+    status: 'نشط',
+    email: 'sara@example.com',
+    phone: '+966 5X XXX XXXX',
+    social: 'LinkedIn · X · Instagram',
+    tags: ['الابتكار', 'التمويل', 'الاستدامة'],
+    avatar: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=200&h=200&fit=crop'
+};
+
+// Load remembered login data
+function loadRememberedData() {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    const rememberedPassword = localStorage.getItem('rememberedPassword');
+    
+    if (rememberedEmail && rememberedPassword) {
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            const emailInput = loginForm.querySelector('input[type="email"]');
+            const passwordInput = loginForm.querySelector('input[type="password"]');
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+            
+            if (emailInput) emailInput.value = rememberedEmail;
+            if (passwordInput) passwordInput.value = rememberedPassword;
+            if (rememberMeCheckbox) rememberMeCheckbox.checked = true;
+        }
+    }
+}
+
 // ==========================================
 // Page Navigation
 // ==========================================
@@ -51,20 +84,36 @@ function updateNavigation() {
 function updateLoggedInNav() {
     const navLinks = document.getElementById('navLinks');
     const navActions = document.getElementById('navActions');
+    const mobileMenu = document.getElementById('mobileMenu');
     
     if (navLinks && navActions) {
         navLinks.innerHTML = `
+            <a href="#" class="nav-link" onclick="showPage('landing'); return false;">الرئيسية</a>
             <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">لوحة التحكم</a>
             <a href="#" class="nav-link" onclick="showPage('courses'); return false;">الدورات التدريبية</a>
             <a href="#" class="nav-link" onclick="showPage('investors'); return false;">المستثمرون</a>
             <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">متابعة التقدم</a>
-            <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">الملف الشخصي</a>
+            <a href="#" class="nav-link" onclick="showProfile(); return false;">الملف الشخصي</a>
         `;
         
         navActions.innerHTML = `
             <button class="btn btn-outline" onclick="logout()">
                 تسجيل الخروج
             </button>
+        `;
+    }
+    
+    if (mobileMenu) {
+        mobileMenu.innerHTML = `
+            <a href="#" class="mobile-nav-link" onclick="showPage('landing'); return false;">الرئيسية</a>
+            <a href="#" class="mobile-nav-link" onclick="showPage('dashboard'); return false;">لوحة التحكم</a>
+            <a href="#" class="mobile-nav-link" onclick="showPage('courses'); return false;">الدورات التدريبية</a>
+            <a href="#" class="mobile-nav-link" onclick="showPage('investors'); return false;">المستثمرون</a>
+            <a href="#" class="mobile-nav-link" onclick="showPage('dashboard'); return false;">متابعة التقدم</a>
+            <a href="#" class="mobile-nav-link" onclick="showProfile(); return false;">الملف الشخصي</a>
+            <div class="mobile-nav-actions">
+                <button class="btn btn-outline btn-block" onclick="logout()">تسجيل الخروج</button>
+            </div>
         `;
     }
 }
@@ -76,12 +125,14 @@ function logout() {
     // Reset navigation
     const navLinks = document.getElementById('navLinks');
     const navActions = document.getElementById('navActions');
+    const mobileMenu = document.getElementById('mobileMenu');
     
     if (navLinks && navActions) {
         navLinks.innerHTML = `
             <a href="#" class="nav-link active" data-page="landing" onclick="showPage('landing'); return false;">الرئيسية</a>
             <a href="#" class="nav-link" data-page="about" onclick="showPage('about'); return false;">من نحن</a>
             <a href="#" class="nav-link" data-page="contact" onclick="showPage('contact'); return false;">تواصل معنا</a>
+            <a href="#" class="nav-link" onclick="showProfile(); return false;">الملف الشخصي</a>
         `;
         
         navActions.innerHTML = `
@@ -89,6 +140,155 @@ function logout() {
             <button class="btn btn-primary" onclick="showPage('auth')">ابدئي الآن</button>
         `;
     }
+    
+    if (mobileMenu) {
+        mobileMenu.innerHTML = `
+            <a href="#" class="mobile-nav-link" data-page="landing">الرئيسية</a>
+            <a href="#" class="mobile-nav-link" data-page="about">من نحن</a>
+            <a href="#" class="mobile-nav-link" data-page="contact">تواصل معنا</a>
+            <a href="#" class="mobile-nav-link" onclick="showProfile(); return false;">الملف الشخصي</a>
+            <div class="mobile-nav-actions">
+                <button class="btn btn-outline btn-block" onclick="showPage('auth')">تسجيل الدخول</button>
+                <button class="btn btn-primary btn-block" onclick="showPage('auth')">ابدئي الآن</button>
+            </div>
+        `;
+    }
+}
+
+function showProfile() {
+    if (isLoggedIn) {
+        showPage('profile');
+    } else {
+        showPage('auth');
+    }
+}
+
+function renderProfileData() {
+    const avatar = document.getElementById('profileAvatar');
+    const nameEl = document.getElementById('profileNameDisplay');
+    const roleEl = document.getElementById('profileRoleDisplay');
+    const summaryEl = document.getElementById('profileSummary');
+    const experienceEl = document.getElementById('profileExperience');
+    const locationEl = document.getElementById('profileLocation');
+    const statusEl = document.getElementById('profileStatus');
+    const emailEl = document.getElementById('profileEmail');
+    const phoneEl = document.getElementById('profilePhone');
+    const socialEl = document.getElementById('profileSocial');
+
+    if (avatar) {
+        avatar.src = profileState.avatar;
+    }
+    if (nameEl) {
+        nameEl.textContent = profileState.name;
+    }
+    if (roleEl) {
+        roleEl.textContent = profileState.role;
+    }
+    if (summaryEl) {
+        summaryEl.textContent = profileState.summary;
+    }
+    if (experienceEl) {
+        experienceEl.textContent = profileState.experience;
+    }
+    if (locationEl) {
+        locationEl.textContent = profileState.location;
+    }
+    if (statusEl) {
+        statusEl.textContent = profileState.status;
+    }
+    if (emailEl) {
+        emailEl.textContent = profileState.email;
+    }
+    if (phoneEl) {
+        phoneEl.textContent = profileState.phone;
+    }
+    if (socialEl) {
+        socialEl.textContent = profileState.social;
+    }
+
+    updateProfileTags();
+}
+
+function updateProfileTags() {
+    const tagsContainer = document.getElementById('profileTags');
+    if (!tagsContainer) return;
+
+    tagsContainer.innerHTML = '';
+    profileState.tags.forEach(tag => {
+        const span = document.createElement('span');
+        span.textContent = tag;
+        tagsContainer.appendChild(span);
+    });
+}
+
+function fillProfileForm() {
+    const fields = [
+        { id: 'profileNameInput', value: profileState.name },
+        { id: 'profileRoleInput', value: profileState.role },
+        { id: 'profileExperienceInput', value: profileState.experience },
+        { id: 'profileLocationInput', value: profileState.location },
+        { id: 'profileStatusInput', value: profileState.status },
+        { id: 'profileEmailInput', value: profileState.email },
+        { id: 'profilePhoneInput', value: profileState.phone },
+        { id: 'profileSocialInput', value: profileState.social },
+        { id: 'profileSummaryInput', value: profileState.summary },
+        { id: 'profileTagsInput', value: profileState.tags.join(', ') }
+    ];
+
+    fields.forEach(field => {
+        const element = document.getElementById(field.id);
+        if (element) {
+            element.value = field.value;
+        }
+    });
+}
+
+function handleProfileEditSubmit(event) {
+    event.preventDefault();
+    const nameInput = document.getElementById('profileNameInput');
+    const roleInput = document.getElementById('profileRoleInput');
+    const experienceInput = document.getElementById('profileExperienceInput');
+    const locationInput = document.getElementById('profileLocationInput');
+    const statusInput = document.getElementById('profileStatusInput');
+    const emailInput = document.getElementById('profileEmailInput');
+    const phoneInput = document.getElementById('profilePhoneInput');
+    const socialInput = document.getElementById('profileSocialInput');
+    const summaryInput = document.getElementById('profileSummaryInput');
+    const tagsInput = document.getElementById('profileTagsInput');
+
+    if (nameInput) profileState.name = nameInput.value.trim() || profileState.name;
+    if (roleInput) profileState.role = roleInput.value.trim() || profileState.role;
+    if (experienceInput) profileState.experience = experienceInput.value.trim() || profileState.experience;
+    if (locationInput) profileState.location = locationInput.value.trim() || profileState.location;
+    if (statusInput) profileState.status = statusInput.value.trim() || profileState.status;
+    if (emailInput) profileState.email = emailInput.value.trim() || profileState.email;
+    if (phoneInput) profileState.phone = phoneInput.value.trim() || profileState.phone;
+    if (socialInput) profileState.social = socialInput.value.trim() || profileState.social;
+    if (summaryInput) profileState.summary = summaryInput.value.trim() || profileState.summary;
+    if (tagsInput) {
+        const parsedTags = tagsInput.value
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag.length > 0);
+        profileState.tags = parsedTags.length ? parsedTags : profileState.tags;
+    }
+
+    renderProfileData();
+    showToast('تم حفظ معلومات الملف الشخصي بنجاح', 'success');
+}
+
+function handleProfileImageChange(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file || !file.type.startsWith('image/')) {
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        profileState.avatar = reader.result;
+        renderProfileData();
+    };
+    reader.readAsDataURL(file);
 }
 
 // ==========================================
@@ -216,9 +416,22 @@ if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
+        const email = loginForm.querySelector('input[type="email"]').value;
+        const password = loginForm.querySelector('input[type="password"]').value;
+        const rememberMe = document.getElementById('rememberMe').checked;
+        
         // Simulate login
         isLoggedIn = true;
         showPage('dashboard');
+        
+        // Save login data if remember me is checked
+        if (rememberMe) {
+            localStorage.setItem('rememberedEmail', email);
+            localStorage.setItem('rememberedPassword', password);
+        } else {
+            localStorage.removeItem('rememberedEmail');
+            localStorage.removeItem('rememberedPassword');
+        }
         
         // Show success message
         showToast('تم تسجيل الدخول بنجاح! 🎉', 'success');
@@ -431,9 +644,34 @@ stats.forEach(stat => statsObserver.observe(stat));
 document.addEventListener('DOMContentLoaded', () => {
     console.log('منصة تمكين رائدات الأعمال - تم تحميل الموقع بنجاح ✅');
     
+    // Load remembered login data
+    loadRememberedData();
+    
     // Show landing page by default
     showPage('landing');
-    
+
+    renderProfileData();
+    fillProfileForm();
+
+    const profileEditForm = document.getElementById('profileEditForm');
+    if (profileEditForm) {
+        profileEditForm.addEventListener('submit', handleProfileEditSubmit);
+    }
+
+    const profileImageInput = document.getElementById('profileImageInput');
+    if (profileImageInput) {
+        profileImageInput.addEventListener('change', handleProfileImageChange);
+    }
+
+    const profileResetBtn = document.getElementById('profileResetBtn');
+    if (profileResetBtn) {
+        profileResetBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            fillProfileForm();
+            showToast('تم إعادة بيانات النموذج إلى آخر حالة محفوظة.', 'success');
+        });
+    }
+
     // Add loading animation
     document.body.style.opacity = '0';
     setTimeout(() => {
