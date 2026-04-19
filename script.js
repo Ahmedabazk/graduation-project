@@ -1,17 +1,10 @@
 // ==========================================
 // منصة تمكين رائدات الأعمال
 // ==========================================
-// 📌 للوصول إلى لوحة التحكم الإدارية: admin.html
-// 📌 يمكنك الوصول إليها من:
-//    - رابط في navbar (⚙️ لوحة التحكم)
-//    - صفحة تسجيل الدخول (زر الدخول إلى لوحة التحكم الإدارية)
-//    - مباشرة عبر: /admin.html
-// ==========================================
 
 let currentPage = 'landing';
 let isLoggedIn = false;
 let authMode = 'login'; // 'login' or 'register'
-let isAdminMode = false; // Track if user is admin
 
 const profileState = {
     name: 'سارة القحطاني',
@@ -47,6 +40,385 @@ function loadRememberedData() {
         }
     }
 }
+
+// ==========================================
+// Admin Dashboard Access
+// ==========================================
+
+// Admin credentials (you can change these)
+const ADMIN_CREDENTIALS = {
+    email: 'admin@example.com',
+    password: 'admin123'
+};
+
+// Helper function to safely set auth flag
+function setAdminAuth() {
+    // Try multiple storage methods for maximum compatibility
+    try {
+        localStorage.setItem('adminAuthenticated', 'true');
+        localStorage.setItem('adminTimestamp', Date.now().toString());
+    } catch (e) {
+        console.error('localStorage failed:', e);
+    }
+    
+    try {
+        sessionStorage.setItem('adminAuthenticated', 'true');
+    } catch (e) {
+        console.error('sessionStorage failed:', e);
+    }
+    
+    // Also set a cookie as backup
+    document.cookie = 'adminAuth=true; path=/';
+}
+
+// Helper function to check admin auth
+function isAdminAuthenticated() {
+    const localAuth = localStorage.getItem('adminAuthenticated') === 'true';
+    const sessionAuth = sessionStorage.getItem('adminAuthenticated') === 'true';
+    const cookieAuth = document.cookie.includes('adminAuth=true');
+    
+    return localAuth || sessionAuth || cookieAuth;
+}
+
+// Function to open admin login modal
+function openAdminLogin() {
+    const modal = document.createElement('div');
+    modal.id = 'adminLoginModal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        direction: rtl;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        ">
+            <h2 style="text-align: center; margin-bottom: 1.5rem; color: #7c3aed;">🔐 تسجيل دخول لوحة التحكم</h2>
+            
+            <form id="adminLoginForm" onsubmit="authenticateAdmin(event)">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">البريد الإلكتروني</label>
+                    <input type="email" id="adminEmail" required style="
+                        width: 100%;
+                        padding: 0.75rem;
+                        border: 1px solid #d1d5db;
+                        border-radius: 8px;
+                        font-family: inherit;
+                        font-size: 1rem;
+                    " placeholder="admin@example.com">
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">كلمة المرور</label>
+                    <input type="password" id="adminPassword" required style="
+                        width: 100%;
+                        padding: 0.75rem;
+                        border: 1px solid #d1d5db;
+                        border-radius: 8px;
+                        font-family: inherit;
+                        font-size: 1rem;
+                    " placeholder="••••••••">
+                </div>
+                
+                <div id="adminError" style="color: #dc2626; margin-bottom: 1rem; display: none; text-align: center;"></div>
+                
+                <div style="display: flex; gap: 0.75rem;">
+                    <button type="submit" style="
+                        flex: 1;
+                        padding: 0.75rem;
+                        background: #7c3aed;
+                        color: white;
+                        border: none;
+                        border-radius: 8px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        font-size: 1rem;
+                    ">دخول</button>
+                    <button type="button" onclick="closeAdminModal()" style="
+                        flex: 1;
+                        padding: 0.75rem;
+                        background: #e5e7eb;
+                        color: #374151;
+                        border: none;
+                        border-radius: 8px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        font-size: 1rem;
+                    ">إلغاء</button>
+                </div>
+            </form>
+            
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
+                <p style="text-align: center; color: #6b7280; font-size: 0.875rem; margin-bottom: 1rem;">أو سجل الدخول باستخدام:</p>
+                <div id="googleSignInBtn" style="display: flex; justify-content: center;"></div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Render Google Sign-In button after modal is added to DOM
+    setTimeout(function() {
+        renderGoogleSignInButton();
+    }, 100);
+}
+
+// Function to authenticate admin
+function authenticateAdmin(event) {
+    event.preventDefault();
+    const email = document.getElementById('adminEmail').value.trim();
+    const password = document.getElementById('adminPassword').value.trim();
+    const errorDiv = document.getElementById('adminError');
+    
+    // Debug: log the values
+    console.log('Email entered:', email);
+    console.log('Password entered:', password);
+    console.log('Expected Email:', ADMIN_CREDENTIALS.email);
+    console.log('Expected Password:', ADMIN_CREDENTIALS.password);
+    
+    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+        console.log('✓ Authentication successful!');
+        
+        try {
+            // Set authentication flag using our helper
+            setAdminAuth();
+            
+            console.log('✓ Auth flags set, closing modal...');
+            
+            // Close modal
+            closeAdminModal();
+            
+            // Use a longer delay and replace instead of href
+            setTimeout(function() {
+                console.log('✓ Redirecting to admin.html');
+                window.location.replace('admin.html');
+            }, 300);
+        } catch (e) {
+            console.error('Error during authentication:', e);
+            errorDiv.textContent = 'خطأ في النظام. يرجى المحاولة لاحقاً';
+            errorDiv.style.display = 'block';
+        }
+    } else {
+        console.log('✗ Authentication failed - credentials mismatch');
+        errorDiv.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Function to close admin modal
+function closeAdminModal() {
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// ==========================================
+// Google Sign-In for Admin Dashboard
+// ==========================================
+
+// Initialize Google Sign-In - SDK is loaded from index.html/admin.html
+function initializeGoogleSignIn() {
+    // Check if Google library is already loaded
+    const checkGoogleLib = setInterval(function() {
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+            console.log('✓ Google library detected');
+            
+            // Initialize Google Sign-In
+            try {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID, // Use the constant from top of file
+                    callback: handleGoogleSignIn
+                });
+                console.log('✓ Google Sign-In initialized');
+            } catch (e) {
+                console.error('Error initializing Google Sign-In:', e);
+            }
+            
+            clearInterval(checkGoogleLib);
+        }
+    }, 100);
+    
+    // Set timeout to stop checking after 5 seconds
+    setTimeout(function() {
+        clearInterval(checkGoogleLib);
+    }, 5000);
+}
+
+// Handle Google Sign-In callback
+function handleGoogleSignIn(response) {
+    console.log('✓ Google Sign-In response received');
+    
+    if (response.credential) {
+        try {
+            console.log('✓ Processing credential token');
+            
+            // Decode the JWT to get user info (optional, for logging)
+            const base64Url = response.credential.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            
+            const userInfo = JSON.parse(jsonPayload);
+            console.log('✓ User Info from Google:', userInfo.email);
+            
+            // Store admin authentication
+            setAdminAuth();
+            
+            console.log('✓ Google authentication successful!');
+            
+            // Close modal and redirect
+            closeAdminModal();
+            
+            // Redirect to admin panel
+            setTimeout(function() {
+                console.log('✓ Redirecting to admin.html');
+                window.location.replace('admin.html');
+            }, 300);
+            
+        } catch (e) {
+            console.error('Error processing Google sign-in:', e);
+            const errorDiv = document.getElementById('adminError');
+            if (errorDiv) {
+                errorDiv.textContent = 'حدث خطأ في معالجة بيانات Google. يرجى المحاولة مرة أخرى.';
+                errorDiv.style.display = 'block';
+            }
+        }
+    } else {
+        console.error('No credential in response');
+        const errorDiv = document.getElementById('adminError');
+        if (errorDiv) {
+            errorDiv.textContent = 'فشل تسجيل الدخول بـ Google. يرجى المحاولة مرة أخرى.';
+            errorDiv.style.display = 'block';
+        }
+    }
+}
+
+// Render Google Sign-In button in the modal
+function renderGoogleSignInButton() {
+    const container = document.getElementById('googleSignInBtn');
+    
+    if (!container) {
+        console.warn('Google button container not found');
+        return;
+    }
+    
+    // Check if Client ID is configured properly
+    if (GOOGLE_CLIENT_ID.includes('YOUR_GOOGLE_CLIENT_ID')) {
+        console.warn('⚠️ Google Client ID not configured');
+        container.innerHTML = `
+            <div style="
+                background: #fef3c7;
+                border: 1px solid #fcd34d;
+                border-radius: 8px;
+                padding: 0.75rem;
+                text-align: center;
+                color: #92400e;
+                font-size: 0.875rem;
+            ">
+                ⚠️ تسجيل الدخول بـ Google غير مفعل حالياً<br>
+                <small>تحتاج إلى إضافة Google Client ID في script.js</small>
+            </div>
+        `;
+        return;
+    }
+    
+    // Check if Google library is loaded
+    if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+        console.warn('Google library not loaded yet, retrying...');
+        setTimeout(renderGoogleSignInButton, 500);
+        return;
+    }
+    
+    try {
+        // Clear previous render
+        container.innerHTML = '';
+        
+        // Render the button
+        google.accounts.id.renderButton(
+            container,
+            {
+                theme: 'outline',
+                size: 'large',
+                width: '100%',
+                locale: 'ar',
+                text: 'signin_with'
+            }
+        );
+        
+        console.log('✓ Google Sign-In button rendered successfully');
+    } catch (e) {
+        console.error('Error rendering Google button:', e);
+        container.innerHTML = `
+            <div style="
+                background: #fee2e2;
+                border: 1px solid #fca5a5;
+                border-radius: 8px;
+                padding: 0.75rem;
+                text-align: center;
+                color: #7f1d1d;
+                font-size: 0.875rem;
+            ">
+                ❌ فشل تحميل زر جوجل
+            </div>
+        `;
+    }
+}
+
+// Initialize Google Sign-In when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeGoogleSignIn();
+    });
+} else {
+    initializeGoogleSignIn();
+}
+
+// Function to logout from admin
+function logoutAdmin() {
+    console.log('Logging out admin...');
+    
+    // Clear all storage methods
+    try {
+        sessionStorage.removeItem('adminAuthenticated');
+        localStorage.removeItem('adminAuthenticated');
+        localStorage.removeItem('adminTimestamp');
+        localStorage.removeItem('adminLastLogin');
+    } catch (e) {
+        console.error('Error clearing storage:', e);
+    }
+    
+    // Clear cookie
+    document.cookie = 'adminAuth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+    
+    console.log('✓ Auth flags cleared, redirecting to index.html');
+    window.location.replace('index.html');
+}
+
+// Click outside modal to close
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('click', function(event) {
+        const modal = document.getElementById('adminLoginModal');
+        if (modal && event.target === modal) {
+            closeAdminModal();
+        }
+    });
+});
 
 // ==========================================
 // Page Navigation
@@ -107,7 +479,6 @@ function updateLoggedInNav() {
             <a href="#" class="nav-link" onclick="showPage('investors'); return false;">المستثمرون</a>
             <a href="#" class="nav-link" onclick="showPage('dashboard'); return false;">متابعة التقدم</a>
             <a href="#" class="nav-link" onclick="showProfile(); return false;">الملف الشخصي</a>
-            <a href="admin.html" class="nav-link admin-link" title="لوحة التحكم" style="color: #f59e0b; font-weight: 600;">⚙️ لوحة التحكم</a>
         `;
         
         navActions.innerHTML = `

@@ -1,561 +1,358 @@
-/* ==========================================
-   Admin Dashboard - JavaScript
-   ========================================== */
+// التعامل مع التنقل في الشريط الجانبي
+const navItems = document.querySelectorAll('.nav-item');
+const pages = document.querySelectorAll('.page');
 
-// 📌 تم ربط لوحة التحكم بالموقع الرئيسي (index.html)
-// 📌 يمكن الوصول إليها من:
-//    - رابط في navbar (⚙️ لوحة التحكم)
-//    - صفحة تسجيل الدخول
-//    - الرابط المباشر: /admin.html
-// 📌 للعودة إلى الموقع الرئيسي: اضغط على الشعار أو زر "العودة للموقع" في الـ sidebar
-
-let currentPage = 'overview';
-let chartsInitialized = false;
-
-// ==========================================
-// Initialization
-// ==========================================
-
-document.addEventListener('DOMContentLoaded', () => {
-    initializeEventListeners();
-    initializeCharts();
-    setupPageNavigation();
-    updateDateTime();
-});
-
-function initializeEventListeners() {
-    // Sidebar Navigation
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            navigateToPage(link.dataset.page);
-        });
-    });
-
-    // Sidebar Toggle
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', toggleSidebar);
-    }
-
-    // Search functionality
-    const searchInput = document.querySelector('.search-box input');
-    if (searchInput) {
-        searchInput.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                performSearch(e.target.value);
-            }
-        });
-    }
-
-    // Logout button
-    const logoutBtn = document.querySelector('.btn-logout');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
-    }
-
-    // Date filter
-    const dateFilter = document.querySelector('.date-filter');
-    if (dateFilter) {
-        dateFilter.addEventListener('change', (e) => {
-            updateCharts(e.target.value);
-        });
-    }
-
-    // Chart period buttons
-    const chartPeriods = document.querySelectorAll('.chart-period');
-    chartPeriods.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            chartPeriods.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateCharts(btn.textContent);
-        });
-    });
-
-    // Action buttons
-    setupActionButtons();
-
-    // Notification bell
-    const notificationBell = document.querySelector('.notification-bell');
-    if (notificationBell) {
-        notificationBell.addEventListener('mouseenter', showNotifications);
-    }
-
-    // Table search
-    const tableSearch = document.querySelector('.search-input input');
-    if (tableSearch) {
-        tableSearch.addEventListener('keyup', (e) => {
-            filterTable(e.target.value);
-        });
-    }
-
-    // Filter select
-    const filterSelect = document.querySelector('.filter-select');
-    if (filterSelect) {
-        filterSelect.addEventListener('change', (e) => {
-            filterTable(e.target.value);
-        });
-    }
-
-    // Settings inputs
-    const settingInputs = document.querySelectorAll('.setting-group input');
-    settingInputs.forEach(input => {
-        input.addEventListener('focus', () => {
-            input.style.borderColor = 'var(--primary)';
-        });
-    });
-
-    // Buttons
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            if (btn.classList.contains('btn-primary')) {
-                showToast(`تم النقر على ${btn.textContent}`, 'success');
-            }
-        });
-    });
-
-    // Action button clicks
-    const actionBtns = document.querySelectorAll('.btn-action');
-    actionBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (btn.classList.contains('edit')) {
-                showToast('جاري فتح نموذج التعديل...', 'info');
-            } else if (btn.classList.contains('delete')) {
-                if (confirm('هل أنت متأكد من حذف هذا العنصر؟')) {
-                    showToast('تم حذف العنصر بنجاح', 'success');
-                }
-            }
-        });
-    });
-}
-
-function setupPageNavigation() {
-    // Setup navigation links
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Remove active class from all links
-            navLinks.forEach(l => l.classList.remove('active'));
-            // Add active class to clicked link
-            link.classList.add('active');
-            
-            const page = link.dataset.page;
-            navigateToPage(page);
-        });
-    });
-}
-
-function navigateToPage(pageName) {
-    // Hide all pages
-    const pages = document.querySelectorAll('.page-section');
-    pages.forEach(page => {
-        page.classList.remove('active');
-    });
-
-    // Show selected page
-    const selectedPage = document.getElementById(pageName);
-    if (selectedPage) {
-        selectedPage.classList.add('active');
-        currentPage = pageName;
-
-        // Initialize charts if on overview
-        if (pageName === 'overview' && !chartsInitialized) {
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const targetPage = item.getAttribute('data-page');
+        
+        // إزالة الكلاس النشط من جميع العناصر
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
+        
+        // إخفاء جميع الصفحات
+        pages.forEach(page => page.classList.add('hidden'));
+        
+        // إظهار الصفحة المطلوبة
+        document.getElementById(`${targetPage}-page`).classList.remove('hidden');
+        
+        // رسم الرسوم البيانية إذا كانت الصفحة هي التحليلات
+        if (targetPage === 'analytics') {
             setTimeout(() => {
-                initializeCharts();
+                drawSalesChart();
+                drawProductsChart();
             }, 100);
         }
-    }
-}
-
-// ==========================================
-// Chart Initialization
-// ==========================================
-
-function initializeCharts() {
-    if (chartsInitialized) return;
-
-    const growthChartCanvas = document.getElementById('growthChart');
-    const categoriesChartCanvas = document.getElementById('categoriesChart');
-
-    if (growthChartCanvas && categoriesChartCanvas && typeof Chart !== 'undefined') {
-        // Growth Chart
-        const growthCtx = growthChartCanvas.getContext('2d');
-        new Chart(growthCtx, {
-            type: 'line',
-            data: {
-                labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
-                datasets: [{
-                    label: 'المستخدمون الجدد',
-                    data: [65, 89, 125, 145, 180, 210, 240],
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 6,
-                    pointBackgroundColor: '#6366f1',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointHoverRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            drawBorder: false,
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Categories Chart
-        const categoriesCtx = categoriesChartCanvas.getContext('2d');
-        new Chart(categoriesCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['التكنولوجيا', 'التسويق', 'الخدمات', 'التجارة', 'أخرى'],
-                datasets: [{
-                    data: [35, 25, 20, 15, 5],
-                    backgroundColor: [
-                        '#6366f1',
-                        '#ec4899',
-                        '#f59e0b',
-                        '#10b981',
-                        '#3b82f6'
-                    ],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: {
-                                family: "'Cairo', 'Tajawal', sans-serif"
-                            },
-                            padding: 15
-                        }
-                    }
-                }
-            }
-        });
-
-        chartsInitialized = true;
-    }
-}
-
-function updateCharts(period) {
-    showToast(`تم تحديث البيانات للفترة: ${period}`, 'info');
-    // Here you would fetch new data based on the period
-}
-
-// ==========================================
-// Notifications & Toast
-// ==========================================
-
-function showToast(message, type = 'info') {
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-        <div class="toast-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-            <span>${message}</span>
-        </div>
-    `;
-
-    // Add styles if not already added
-    if (!document.getElementById('toast-styles')) {
-        const style = document.createElement('style');
-        style.id = 'toast-styles';
-        style.innerHTML = `
-            .toast {
-                position: fixed;
-                top: 20px;
-                left: 20px;
-                padding: 1rem 1.5rem;
-                border-radius: 8px;
-                background: white;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-                z-index: 2000;
-                animation: slideInLeft 0.3s ease;
-                max-width: 400px;
-            }
-
-            @keyframes slideInLeft {
-                from {
-                    transform: translateX(-500px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            .toast-success {
-                border-left: 4px solid #10b981;
-            }
-
-            .toast-success .toast-content {
-                color: #065f46;
-            }
-
-            .toast-success i {
-                color: #10b981;
-            }
-
-            .toast-error {
-                border-left: 4px solid #ef4444;
-            }
-
-            .toast-error .toast-content {
-                color: #7f1d1d;
-            }
-
-            .toast-error i {
-                color: #ef4444;
-            }
-
-            .toast-info {
-                border-left: 4px solid #3b82f6;
-            }
-
-            .toast-info .toast-content {
-                color: #1e3a8a;
-            }
-
-            .toast-info i {
-                color: #3b82f6;
-            }
-
-            .toast-content {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                font-size: 14px;
-                font-weight: 500;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    document.body.appendChild(toast);
-
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        toast.style.animation = 'slideOutLeft 0.3s ease';
-        setTimeout(() => {
-            toast.remove();
-        }, 300);
-    }, 3000);
-}
-
-function showNotifications() {
-    // Already shown via CSS hover
-}
-
-// ==========================================
-// Table Filtering
-// ==========================================
-
-function filterTable(searchValue) {
-    const table = document.querySelector('.data-table');
-    if (!table) return;
-
-    const rows = table.querySelectorAll('tbody tr');
-    let visibleCount = 0;
-
-    rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        const isVisible = text.includes(searchValue.toLowerCase());
-        row.style.display = isVisible ? '' : 'none';
-        if (isVisible) visibleCount++;
     });
-
-    // Show message if no results
-    if (visibleCount === 0) {
-        showToast('لم يتم العثور على نتائج', 'info');
-    }
-}
-
-// ==========================================
-// Search & Functionality
-// ==========================================
-
-function performSearch(query) {
-    if (query.trim()) {
-        showToast(`البحث عن: ${query}`, 'info');
-    }
-}
-
-function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    if (sidebar) {
-        sidebar.classList.toggle('active');
-    }
-}
-
-function handleLogout() {
-    if (confirm('هل تريد تسجيل الخروج؟')) {
-        showToast('جاري تسجيل الخروج...', 'info');
-        // Simulate logout
-        setTimeout(() => {
-            // window.location.href = 'index.html';
-        }, 1000);
-    }
-}
-
-// ==========================================
-// Setup Action Buttons
-// ==========================================
-
-function setupActionButtons() {
-    // Add project buttons
-    const addProjectBtns = document.querySelectorAll('.project-actions .btn-primary');
-    addProjectBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('جاري فتح تفاصيل المشروع...', 'info');
-        });
-    });
-
-    // Edit project buttons
-    const editProjectBtns = document.querySelectorAll('.project-actions .btn-outline');
-    editProjectBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('جاري فتح نموذج التعديل...', 'info');
-        });
-    });
-}
-
-// ==========================================
-// Utility Functions
-// ==========================================
-
-function updateDateTime() {
-    setInterval(() => {
-        const now = new Date();
-        const options = {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        };
-        const formatter = new Intl.DateTimeFormat('ar-SA', options);
-        // Update any date display if needed
-    }, 60000);
-}
-
-// ==========================================
-// Advanced Features
-// ==========================================
-
-// Track user activity
-class ActivityTracker {
-    constructor() {
-        this.activities = [];
-    }
-
-    logActivity(action, details) {
-        const activity = {
-            timestamp: new Date(),
-            action: action,
-            details: details
-        };
-        this.activities.push(activity);
-    }
-
-    getActivities() {
-        return this.activities;
-    }
-}
-
-const activityTracker = new ActivityTracker();
-
-// Page view tracking
-document.addEventListener('click', (e) => {
-    if (e.target.closest('.nav-link')) {
-        const pageName = e.target.closest('.nav-link').dataset.page;
-        activityTracker.logActivity('page_view', { page: pageName });
-    }
 });
 
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + K for search
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        const searchInput = document.querySelector('.search-box input');
-        if (searchInput) {
-            searchInput.focus();
+// رسم الرسم البياني للإيرادات
+const canvas = document.getElementById('revenueChart');
+const ctx = canvas.getContext('2d');
+
+function drawChart() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 300;
+    
+    const data = [
+        { month: 'يناير', revenue: 4200 },
+        { month: 'فبراير', revenue: 5100 },
+        { month: 'مارس', revenue: 4800 },
+        { month: 'أبريل', revenue: 6200 },
+        { month: 'مايو', revenue: 7500 },
+        { month: 'يونيو', revenue: 8100 },
+        { month: 'يوليو', revenue: 7800 },
+        { month: 'أغسطس', revenue: 9200 }
+    ];
+    
+    const padding = 50;
+    const chartWidth = canvas.width - padding * 2;
+    const chartHeight = canvas.height - padding * 2;
+    const maxRevenue = Math.max(...data.map(d => d.revenue));
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // رسم الخطوط الشبكية
+    ctx.strokeStyle = '#f0f0f0';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+        const y = padding + (chartHeight / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(canvas.width - padding, y);
+        ctx.stroke();
+    }
+    
+    // رسم منطقة التعبئة تحت الخط
+    ctx.beginPath();
+    data.forEach((item, index) => {
+        const x = padding + (chartWidth / (data.length - 1)) * index;
+        const y = canvas.height - padding - (item.revenue / maxRevenue) * chartHeight;
+        
+        if (index === 0) {
+            ctx.moveTo(x, canvas.height - padding);
+            ctx.lineTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
         }
+    });
+    ctx.lineTo(canvas.width - padding, canvas.height - padding);
+    ctx.closePath();
+    
+    const gradient = ctx.createLinearGradient(0, padding, 0, canvas.height - padding);
+    gradient.addColorStop(0, 'rgba(147, 51, 234, 0.3)');
+    gradient.addColorStop(1, 'rgba(147, 51, 234, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    
+    // رسم خط الإيرادات
+    ctx.strokeStyle = '#9333ea';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    
+    data.forEach((item, index) => {
+        const x = padding + (chartWidth / (data.length - 1)) * index;
+        const y = canvas.height - padding - (item.revenue / maxRevenue) * chartHeight;
+        
+        if (index === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    });
+    
+    ctx.stroke();
+    
+    // رسم النقاط
+    data.forEach((item, index) => {
+        const x = padding + (chartWidth / (data.length - 1)) * index;
+        const y = canvas.height - padding - (item.revenue / maxRevenue) * chartHeight;
+        
+        ctx.fillStyle = '#9333ea';
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    
+    // رسم أسماء الأشهر
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '13px Tajawal';
+    ctx.textAlign = 'center';
+    data.forEach((item, index) => {
+        const x = padding + (chartWidth / (data.length - 1)) * index;
+        ctx.fillText(item.month, x, canvas.height - 15);
+    });
+    
+    // رسم قيم المحور Y
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 5; i++) {
+        const value = Math.round((maxRevenue / 5) * (5 - i));
+        const y = padding + (chartHeight / 5) * i;
+        ctx.fillText(value.toString(), padding - 15, y + 5);
     }
+}
 
-    // Ctrl/Cmd + / for help
-    if ((e.ctrlKey || e.metaKey) && e.key === '/') {
-        e.preventDefault();
-        showToast('اختصارات لوحة التحكم: Ctrl+K للبحث', 'info');
-    }
-});
+drawChart();
 
-// Responsive sidebar
-let isMobile = window.innerWidth <= 768;
+// رسم الرسم البياني للمبيعات في صفحة التحليلات
+function drawSalesChart() {
+    const salesCanvas = document.getElementById('salesChart');
+    if (!salesCanvas) return;
+    
+    const salesCtx = salesCanvas.getContext('2d');
+    salesCanvas.width = salesCanvas.offsetWidth;
+    salesCanvas.height = 300;
+    
+    const data = [
+        { month: 'يناير', sales: 320 },
+        { month: 'فبراير', sales: 450 },
+        { month: 'مارس', sales: 380 },
+        { month: 'أبريل', sales: 520 },
+        { month: 'مايو', sales: 610 },
+        { month: 'يونيو', sales: 580 }
+    ];
+    
+    const padding = 50;
+    const chartWidth = salesCanvas.width - padding * 2;
+    const chartHeight = salesCanvas.height - padding * 2;
+    const barWidth = chartWidth / data.length - 20;
+    const maxSales = Math.max(...data.map(d => d.sales));
+    
+    salesCtx.clearRect(0, 0, salesCanvas.width, salesCanvas.height);
+    
+    // رسم الأعمدة
+    data.forEach((item, index) => {
+        const x = padding + (chartWidth / data.length) * index + 10;
+        const barHeight = (item.sales / maxSales) * chartHeight;
+        const y = salesCanvas.height - padding - barHeight;
+        
+        // تدرج لوني للعمود
+        const gradient = salesCtx.createLinearGradient(0, y, 0, salesCanvas.height - padding);
+        gradient.addColorStop(0, '#9333ea');
+        gradient.addColorStop(1, '#a855f7');
+        
+        salesCtx.fillStyle = gradient;
+        salesCtx.fillRect(x, y, barWidth, barHeight);
+        
+        // رسم القيمة فوق العمود
+        salesCtx.fillStyle = '#1f2937';
+        salesCtx.font = 'bold 13px Tajawal';
+        salesCtx.textAlign = 'center';
+        salesCtx.fillText(item.sales.toString(), x + barWidth / 2, y - 10);
+        
+        // رسم اسم الشهر
+        salesCtx.fillStyle = '#6b7280';
+        salesCtx.font = '13px Tajawal';
+        salesCtx.fillText(item.month, x + barWidth / 2, salesCanvas.height - 15);
+    });
+}
 
+// رسم الرسم البياني الدائري للمنتجات
+function drawProductsChart() {
+    const productsCanvas = document.getElementById('productsChart');
+    if (!productsCanvas) return;
+    
+    const productsCtx = productsCanvas.getContext('2d');
+    productsCanvas.width = productsCanvas.offsetWidth;
+    productsCanvas.height = 300;
+    
+    const data = [
+        { name: 'الباقة الأساسية', value: 35, color: '#7c3aed' },
+        { name: 'الباقة المميزة', value: 45, color: '#a855f7' },
+        { name: 'باقة الأعمال', value: 20, color: '#c084fc' }
+    ];
+    
+    const centerX = productsCanvas.width / 2;
+    const centerY = productsCanvas.height / 2;
+    const radius = 90;
+    
+    let currentAngle = -Math.PI / 2;
+    
+    data.forEach(item => {
+        const sliceAngle = (item.value / 100) * Math.PI * 2;
+        
+        productsCtx.beginPath();
+        productsCtx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+        productsCtx.lineTo(centerX, centerY);
+        productsCtx.fillStyle = item.color;
+        productsCtx.fill();
+        
+        // رسم النسبة المئوية
+        const textAngle = currentAngle + sliceAngle / 2;
+        const textX = centerX + Math.cos(textAngle) * (radius * 0.7);
+        const textY = centerY + Math.sin(textAngle) * (radius * 0.7);
+        
+        productsCtx.fillStyle = 'white';
+        productsCtx.font = 'bold 16px Tajawal';
+        productsCtx.textAlign = 'center';
+        productsCtx.fillText(`${item.value}%`, textX, textY);
+        
+        currentAngle += sliceAngle;
+    });
+    
+    // رسم المفتاح
+    let legendY = 30;
+    data.forEach(item => {
+        productsCtx.fillStyle = item.color;
+        productsCtx.fillRect(20, legendY, 20, 20);
+        
+        productsCtx.fillStyle = '#1f2937';
+        productsCtx.font = '14px Tajawal';
+        productsCtx.textAlign = 'right';
+        productsCtx.fillText(item.name, productsCanvas.width - 20, legendY + 15);
+        
+        legendY += 35;
+    });
+}
+
+// إعادة رسم الرسوم البيانية عند تغيير حجم النافذة
 window.addEventListener('resize', () => {
-    const wasMobile = isMobile;
-    isMobile = window.innerWidth <= 768;
-
-    if (wasMobile !== isMobile) {
-        const sidebar = document.querySelector('.sidebar');
-        if (sidebar && !isMobile) {
-            sidebar.classList.remove('active');
-        }
+    drawChart();
+    
+    if (!document.getElementById('analytics-page').classList.contains('hidden')) {
+        drawSalesChart();
+        drawProductsChart();
     }
 });
 
-// Export data simulation
-window.exportData = function(format) {
-    showToast(`جاري تصدير البيانات بصيغة ${format}...`, 'info');
-};
+// زر تسجيل الخروج
+document.querySelector('.logout-btn').addEventListener('click', () => {
+    if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+        alert('تم تسجيل الخروج بنجاح');
+    }
+});
 
-// Print functionality
-window.printPage = function() {
-    window.print();
-};
+/* ==========================================
+   MODALS FUNCTIONS
+   ========================================== */
 
-console.log('✅ لوحة التحكم الاحترافية تم تحميلها بنجاح');
-console.log('🎨 التصميم: احترافي عصري مع ميزات متقدمة');
-console.log('🚀 النسخة: Pro Enhanced v2.0');
-console.log('🔗 الربط: تم ربط لوحة التحكم بنجاح مع الموقع الرئيسي');
-console.log('📍 الرجوع: اضغط على الشعار أو زر "العودة للموقع" للعودة إلى index.html');
+// فتح modal
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // منع التمرير خلف الـ modal
+    }
+}
+
+// إغلاق modal
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto'; // السماح بالتمرير مرة أخرى
+    }
+}
+
+// إغلاق الـ modal عند الضغط خارجه
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+});
+
+// معالجة استمارات الـ modals
+document.addEventListener('DOMContentLoaded', () => {
+    // معالج النموذج: إضافة مستخدم
+    const addUserForm = document.getElementById('addUserForm');
+    if (addUserForm) {
+        addUserForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(addUserForm);
+            console.log('بيانات المستخدم الجديد:', Object.fromEntries(formData));
+            alert('تم إضافة المستخدم بنجاح! ✓');
+            addUserForm.reset();
+            closeModal('addUserModal');
+        });
+    }
+    
+    // معالج النموذج: إضافة منتج
+    const addProductForm = document.getElementById('addProductForm');
+    if (addProductForm) {
+        addProductForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(addProductForm);
+            console.log('بيانات المنتج الجديد:', Object.fromEntries(formData));
+            alert('تم إضافة المنتج بنجاح! ✓');
+            addProductForm.reset();
+            closeModal('addProductModal');
+        });
+    }
+    
+    // معالج النموذج: إضافة طلب
+    const addOrderForm = document.getElementById('addOrderForm');
+    if (addOrderForm) {
+        addOrderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(addOrderForm);
+            console.log('بيانات الطلب الجديد:', Object.fromEntries(formData));
+            alert('تم إنشاء الطلب بنجاح! ✓');
+            addOrderForm.reset();
+            closeModal('addOrderModal');
+        });
+    }
+});
+
+// دالة لفتح modal تفاصيل الطلب
+function openOrderDetails(orderNumber, customerName, productName, amount, status, date) {
+    // ملء بيانات الطلب في الـ modal
+    document.getElementById('orderNumber').textContent = orderNumber;
+    document.getElementById('orderCustomer').textContent = customerName;
+    document.getElementById('orderProduct').textContent = productName;
+    document.getElementById('orderAmount').textContent = amount;
+    document.getElementById('orderStatus').textContent = status;
+    document.getElementById('orderDate').textContent = date;
+    
+    // فتح الـ modal
+    openModal('orderDetailsModal');
+}

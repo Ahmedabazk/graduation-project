@@ -216,6 +216,20 @@ button {
     background: var(--primary);
 }
 
+.admin-dashboard {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: white !important;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.admin-dashboard:hover {
+    background: linear-gradient(135deg, #f97316, #f59e0b);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
 .nav-actions {
     display: flex;
     align-items: center;
@@ -270,6 +284,18 @@ button {
 .mobile-nav-link.active {
     background: var(--accent);
     color: var(--primary);
+}
+
+.mobile-nav-link[onclick*="openAdminLogin"] {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: white !important;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.mobile-nav-link[onclick*="openAdminLogin"]:hover {
+    background: linear-gradient(135deg, #f97316, #f59e0b);
+    transform: translateX(-4px);
 }
 
 .mobile-nav-actions {
